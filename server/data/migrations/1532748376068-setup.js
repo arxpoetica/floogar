@@ -9,6 +9,7 @@ const db = driver.connect()
 
 db.useDatabase(config.ARANGODB_DB)
 const ProfilesGraph = db.graph('profiles-graph')
+const StoriesGraph = db.graph('stories-graph')
 
 export const up = async function() {
 
@@ -24,12 +25,25 @@ export const up = async function() {
 				from: ['users'],
 				to: ['users'],
 			}, {
-				collection: 'user-has-floogar',
+				collection: 'user-has-story',
 				from: ['users'],
-				to: ['floogars'],
+				to: ['stories'],
 			}],
 		})
 		log(profileGraphinfo, 'ProfilesGraph.create info')
+
+		const storyGraphinfo = await StoriesGraph.create({
+			edgeDefinitions: [{
+				collection: 'story-has-clip',
+				from: ['stories'],
+				to: ['clips'],
+			}, {
+				collection: 'clip-has-clip',
+				from: ['clips'],
+				to: ['clips'],
+			}],
+		})
+		log(storyGraphinfo, 'StoriesGraph.create info')
 
 		// ------------------------------ >>>
 		// users and users follows
@@ -106,7 +120,12 @@ export const up = async function() {
 export const down = async function() {
 	log(await ProfilesGraph.vertexCollection('users').drop(), '`users` vertex collection dropped')
 	log(await ProfilesGraph.edgeCollection('user-follows-user').drop(), '`user-follows-user` edge collection dropped')
-	log(await ProfilesGraph.vertexCollection('floogars').drop(), '`floogars` vertex collection dropped')
-	log(await ProfilesGraph.edgeCollection('user-has-floogar').drop(), '`user-has-floogar` edge collection dropped')
+	log(await ProfilesGraph.vertexCollection('stories').drop(), '`stories` vertex collection dropped')
+	log(await ProfilesGraph.edgeCollection('user-has-story').drop(), '`user-has-story` edge collection dropped')
 	log(await ProfilesGraph.drop(), '`profiles-graph` dropped')
+
+	log(await StoriesGraph.edgeCollection('story-has-clip').drop(), '`story-has-clip` edge collection dropped')
+	log(await StoriesGraph.vertexCollection('clips').drop(), '`clips` vertex collection dropped')
+	log(await StoriesGraph.edgeCollection('clip-has-clip').drop(), '`clip-has-clip` edge collection dropped')
+	log(await StoriesGraph.drop(), '`stories-graph` dropped')
 }

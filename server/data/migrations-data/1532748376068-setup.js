@@ -27,7 +27,7 @@ module.exports.users = [{
 	modified: Date.now(),
 	email: '',
 	bio: '',
-	avatar: '',
+	avatar: 'https://scontent-sjc3-1.xx.fbcdn.net/v/t1.0-9/12112035_10154236412874989_266941124195814345_n.jpg?_nc_cat=0&oh=4e6d85948c55a681fb62af42a0fa62d6&oe=5BDBF2D5',
 	displayName: 'Dragon Sword Trainer',
 	first: 'Dragon',
 	last: 'Trainer',

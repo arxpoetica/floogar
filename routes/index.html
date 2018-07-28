@@ -2,17 +2,16 @@
 	<title>Floogar - Home</title>
 </svelte:head>
 
-{#if $user}
-	<Private/>
-{:else}
-	<Public/>
-{/if}
+<!-- https://web.archive.org/web/20080919091446/http://www.rhapsidiom.com:80/advent/index.cfm -->
+
+<!-- <p>{JSON.stringify($user)}</p> -->
+<h1>Tell a story.</h1>
+
+<!-- {#if $user} -->
+<!-- {:else} -->
+<!-- {/if} -->
 
 <script>
 	export default {
-		components: {
-			Private: './_home-private.html',
-			Public: './_home-public.html',
-		},
 	}
 </script>
