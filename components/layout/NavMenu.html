@@ -1,0 +1,96 @@
+<li ref:menu class="menu {open ? 'open' : 'shut'}">
+	<div class="target" on:click="openMenu(open)">
+		<div class="avatar" style="background-image: url({$user.avatar});"></div>
+		<div class="arrow"></div>
+	</div>
+	<div class="dropdown">
+		<ul>
+			<li class="action link"><a href="/auth/signout" on:click="signout(event)">Sign Out</a></li>
+		</ul>
+	</div>
+</li>
+
+<script>
+	export default {
+		data() {
+			return {
+				open: false,
+			}
+		},
+		oncreate() {
+			const menu = this.refs.menu
+			this.store.on('state', ({ current/* , changed, previous */ }) => {
+				if (menu.contains(current.clickedTarget)) { return }
+				this.set({ open: false })
+			})
+		},
+		methods: {
+			openMenu(open) {
+				this.set({ open: !open })
+			},
+			signout(event) {
+				event.preventDefault()
+				this.store.get().signout()
+				// console.log(this.fetch)
+			},
+		}
+	}
+</script>
+
+<style type="text/scss">
+	.menu {
+		position: relative;
+		margin: 0 0 0 10px;
+		font: 1.5rem/1 $font;
+		cursor: pointer;
+		&:hover,
+		&:focus {
+			.arrow {
+				opacity: 1;
+			}
+		}
+	}
+	.target {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	.avatar {
+		width: 40px;
+		height: 40px;
+		background: none no-repeat center gray;
+		background-size: cover; // border-radius: 100%;
+		clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
+		/* clip-path: url('/svg/logo-header.svg'); */
+	}
+	.arrow {
+		width: 12px;
+		height: 6px;
+		background: url('svg/arrow-down.svg') no-repeat center transparent;
+		opacity: 0.7;
+		z-index: 1;
+	}
+	.dropdown {
+		position: absolute;
+		top: -999em;
+		left: -999em;
+		background-color: white;
+		width: auto;
+		min-width: 160px;
+		margin-top: 12px;
+		border: 1px solid rgba(0, 0, 0, 0.3);
+		border-radius: 3px;
+		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+		z-index: $z-front;
+	}
+	.open {
+		.dropdown {
+			top: 100%;
+			right: 0;
+			left: auto;
+		}
+	}
+	a {
+		color: $black;
+	}
+</style>

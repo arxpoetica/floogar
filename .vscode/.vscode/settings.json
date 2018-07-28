@@ -1,0 +1,15 @@
+{
+	"files.exclude": {
+		"node-v*-linux-x64": true,
+		"routes/**/*.css": true,
+	},
+	"search.exclude": {
+		"routes/**/*.html": true,
+		// "**/_hidden": true,
+		// "**/public": true,
+		// "**/lib": true,
+	},
+	"files.associations": {
+		"*.postcss": "scss",
+	},
+}

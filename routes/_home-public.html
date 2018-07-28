@@ -1,0 +1,55 @@
+<div class="bg">
+	<div class="content">
+		<div class="text">
+			<h1>Tell a story.</h1>
+		</div>
+	</div>
+</div>
+
+<!-- <script>
+	export default {
+	}
+</script> -->
+
+<style type="text/scss">
+	.bg {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		padding-top: $header-height-noauth;
+		/* background: url('/img/home/bg.jpg') no-repeat center transparent; */
+		// background: url('/img/home/background.png') no-repeat center transparent;
+		background-size: cover;
+		// color: white;
+		min-height: 100vh;
+		font: 1.8rem/2.2rem $font;
+	}
+	.content {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		max-width: $max;
+		margin: 0 auto;
+		padding: 20px;
+	}
+	.text {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		flex-basis: 60%;
+		// padding-right: 20px;
+		text-align: center;
+	}
+	h1 {
+		font: 6.4rem/7.7rem $font;
+	}
+	@media (max-width: 799px) {
+		.content {
+			display: block;
+		}
+		.text {
+			margin: 0 0 50px;
+			padding: 0;
+		}
+	}
+</style>

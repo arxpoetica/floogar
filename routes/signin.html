@@ -1,0 +1,51 @@
+<form on:submit=submit(event)>
+	<h1>Sign In</h1>
+	<label>Username
+		<input ref:username type="text" name="username" required="required"><!-- autofocus="autofocus" -->
+	</label>
+	<label>Password
+		<input ref:password type="password" name="password" required="required">
+	</label>
+	<button type="submit" class="button">Sign In</button>
+</form>
+
+<script>
+	import { goto } from 'sapper/runtime.js'
+
+	export default {
+		methods: {
+			submit: async function(event) {
+				event.preventDefault()
+
+				const formData = {
+					// username: encodeURIComponent(this.refs.username.value),
+					// password: encodeURIComponent(this.refs.password.value),
+					username: this.refs.username.value,
+					password: this.refs.password.value,
+				}
+
+				const response = await fetch('/auth/local/signin', {
+					method: 'POST',
+					headers: {
+						'Accept': 'application/json',
+						'Content-Type': 'application/json',
+					},
+					credentials: 'same-origin',
+					body: JSON.stringify(formData)
+				})
+				const user = await response.json()
+
+				window.localStorage.setItem('ds', JSON.stringify(user))
+				this.store.set({ user })
+				goto('/', { replaceState: true })
+			},
+		},
+	}
+</script>
+
+<style type="text/scss">
+	form {
+		width: 320px;
+		margin: 0 auto;
+	}
+</style>

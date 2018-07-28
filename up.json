@@ -1,0 +1,26 @@
+{
+  "name": "floogar",
+  "profile": "floogar-up-user",
+  "regions": ["us-east-2"],
+  "hooks": {
+    "build": [
+	  "FIXME=true yarn run build:FIXME:"
+    ],
+    "clean": [
+      "rm -rf build"
+    ]
+  },
+  "stages": {
+    "production": {
+      "domain": "floogar.com"
+    },
+    "staging": {
+      "domain": "staging.floogar.com"
+    },
+  },
+  "lambda": {
+    "warm": true,
+    "warm_count": 15,
+    "runtime": "nodejs8.10"
+  }
+}

@@ -1,0 +1,55 @@
+<svelte:head>
+	<title>{user.username || 'Loading...'} Profile</title>
+</svelte:head>
+
+{#if user}
+	<div class="profile">
+		<div class="avatar" style="background-image:url({user.avatar});"></div>
+		<h1>{user.displayName}</h1>
+		<h2>{user.username}</h2>
+		<div>{user.bio} | {user.email}</div>
+	</div>
+{:else}
+	<h2>LOADING</h2>
+{/if}
+
+<script>
+	import { preloader } from '../../_services/loaders.js'
+	export default {
+		preload: ({ params }) => {
+			return preloader(`
+				{
+					user(username: "${params.profile}")  {
+						username
+						email
+						bio
+						avatar
+						last
+						first
+						displayName
+					}
+				}
+			`).bind(this)()
+		},
+	}
+</script>
+
+<style type="text/scss">
+	.profile {
+		text-align: center;
+		/* width: 80%; */
+		margin: 0 auto 20px;
+		padding: 20px;
+		border: 10px solid white;
+		box-shadow: 0 0 2px rgba(0, 0, 0, 0.05);
+	}
+	.avatar {
+		width: 200px;
+		height: 200px;
+		margin: 0 auto;
+		background: none no-repeat center $black;
+		background-size: cover;
+		border: 8px solid $black;
+		border-radius: 100%;
+	}
+</style>

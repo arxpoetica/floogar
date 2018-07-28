@@ -1,0 +1,11 @@
+/.vscode/
+/data/
+/client/
+/cypress/
+/migrations/
+/routes/
+/webpack/
+
+appveyor.yml
+cypress.json
+README.md

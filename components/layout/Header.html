@@ -1,0 +1,52 @@
+<header class="{$user ? '' : 'no-auth'}">
+	<div class="header-evil-wrap">
+		<a class="logo" href="/">
+			<div class="ghost">Floogar</div>
+			<AuthLogo/>
+		</a>
+		<Nav {segment}/>
+	</div>
+</header>
+
+<script>
+	export default {
+		components: {
+			Nav: './Nav.html',
+			AuthLogo: '../../client/svg/compiled/logo.svg',
+		},
+	}
+</script>
+
+<style type="text/scss">
+	header {
+		position: fixed;
+		top: 0;
+		right: 0;
+		left: 0;
+		background-color: #223338;
+		color: white;
+		font: 1.5rem/1 $font;
+		z-index: $z-front;
+		&.no-auth {
+			background-color: rgba(255, 255, 255, 1);
+			color: $black;
+			.header-evil-wrap {
+				height: $header-height-noauth;
+			}
+		}
+	}
+	.header-evil-wrap {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		max-width: $max;
+		height: $header-height;
+		margin: 0 auto;
+		padding: 0 20px;
+	}
+	.logo {
+		display: block;
+		width: 200px;
+		height: 45px;
+	}
+</style>

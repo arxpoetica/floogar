@@ -1,0 +1,66 @@
+<svelte:head>
+	<title>Browse Profiles</title>
+</svelte:head>
+
+<h1>Browse Profiles</h1>
+{#if users}
+	<div class="profiles-section">
+		<h2 class="title">Profiles</h2>
+		<div class="profiles">
+			{#each users as user}
+				<div class="profile">
+					{#if user.avatar}
+						<div class="avatar" style="background-image:url({user.avatar});"></div>
+					{/if}
+					<div class="detail">
+						<h3 class="name"><a href="/profiles/{user.username}">{user.displayName}</a></h3>
+						<h4 class="username">{user.username}</h4>
+						<p class="bio">{user.bio}</p>
+					</div>
+				</div>
+			{/each}
+		</div>
+	</div>
+{:else}
+	<h2>LOADING</h2>
+{/if}
+
+
+<script>
+	import { preloader } from '../_services/loaders.js'
+
+	export default {
+		preload: preloader('{ users { username email bio avatar last first displayName } }'),
+		// data() {
+		// 	return {
+		// 		profiles: [], // just for loading purposes
+		// 	}
+		// },
+	}
+</script>
+
+<style type="text/scss">
+	.profile {
+		display: flex;
+		align-items: center;
+		margin: 0 0 20px;
+		padding: 0 0 0 20px;
+		background-color: white;
+		box-shadow: 0 0 2px rgba(0, 0, 0, 0.05);
+	}
+	.avatar {
+		flex: 0 0 100px;
+		height: 100px;
+		background: none no-repeat center transparent;
+		background-size: cover;
+		border: 4px solid $blue;
+		border-radius: 100%;
+	}
+	.detail {
+		flex: 1 0 auto;
+		padding: 20px;
+		&:last-child {
+			margin: 0;
+		}
+	}
+</style>

@@ -1,0 +1,92 @@
+<nav class="{$user ? '' : 'no-auth'}">
+	<ul>
+		<li class="link" data-on="{segment === 'profiles'}"><a href="profiles" rel=prefetch>Profiles</a></li>
+		{#if $user}
+			<!-- TODO: make this an admin setting, not username based -->
+			{#if $user.username === 'floogar'}
+				<li class="link"><a href="/api/pure-graphql" target="_blank">API</a></li>
+			{/if}
+			<li class="action link"><a href="start">New</a></li><!-- FIXME: change to 'new' -->
+			<NavMenu/>
+		{:else}
+			<li class="link" data-on="{segment.startsWith('blog')}"><a href="blog" rel=prefetch>Blog</a></li>
+			<li class="link signin"><a href="signin">Sign In</a></li>
+		{/if}
+	</ul>
+</nav>
+
+<script>
+	export default {
+		components: {
+			NavMenu: './NavMenu.html',
+		},
+	}
+</script>
+
+<style type="text/scss">
+	nav {
+		display: flex;
+		align-items: center;
+	}
+
+	ul {
+		display: flex;
+		align-items: center;
+	}
+
+	li {
+		display: flex;
+		margin: 0 2px;
+		a {
+			height: 28px;
+			padding: 0 12px;
+			border-radius: 1px;
+			color: white;
+			line-height: 2.8rem;
+			text-decoration: none;
+			transition: background-color 0.15s ease-in-out;
+			&:hover,
+			&:focus {
+				background-color: #5c696c;
+			}
+		}
+		&[data-on=true] a {
+			background-color: #ebebeb;
+			color: $black;
+			font-weight: $bold;
+			cursor: default;
+		}
+		&.action a {
+			background-color: #fada61;
+			color: black;
+			font-weight: $bold;
+			opacity: 0.7;
+			transition: opacity 0.15s ease-in-out;
+			&:hover,
+			&:focus {
+				opacity: 1;
+			}
+		}
+	}
+	.no-auth {
+		font-weight: $bold;
+		li {
+			a {
+				color: $black;
+				&:hover,
+				&:focus {
+					background-color: $yellow;
+				}
+			}
+			&[data-on=true] a {
+				background-color: $yellow;
+			}
+			&.signin a {
+				background-color: $green;
+				color: black;
+				font-weight: $bold;
+				transition: opacity 0.15s ease-in-out;
+			}
+		}
+	}
+</style>

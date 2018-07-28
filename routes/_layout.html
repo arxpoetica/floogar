@@ -1,0 +1,66 @@
+<div class="layout {page}-page {$loaded ? '' : 'unloaded'} {$user ? '' : 'no-auth'}">
+	<Header {segment}/>
+	<main>
+		<svelte:component this={child.component} {...child.props}/>
+	</main>
+</div>
+
+<script>
+	export default {
+		computed: {
+			segment: ({ child }) => child.segment ? child.segment : '',
+			page: ({ segment }) => segment === '' ? 'home' : segment.split('/')[0],
+		},
+		components: {
+			Header: '../components/layout/Header',
+		},
+		oncreate() {
+			// DOM ONLY STUFF
+			document.addEventListener('click', event => this.store.set({ clickedTarget: event.target }))
+		},
+	}
+</script>
+
+<style type="text/scss">
+	:global(html) {
+		background-color: #f4f4f4;
+		font: 10px/1.2 $font;
+		/* font-size: 100%; */
+		box-sizing: border-box;
+		text-size-adjust: 100%;
+		/* -ms-overflow-style: -ms-autohiding-scrollbar; */
+	}
+	:global(body) {
+		margin: 0;
+		background-color: #f4f4f4;
+		color: $black;
+		font: $light 1.8rem/lh(18, 30) $font;
+		/* -webkit-font-smoothing: antialiased; */
+		/* -moz-osx-font-smoothing: grayscale; */
+	}
+	.layout {
+		position: relative;
+		min-height: 100vh;
+		padding-top: $header-height;
+		opacity: 1;
+		transition: opacity 0.1s ease-in-out;
+		&.unloaded {
+			opacity: 0;
+		}
+		&.no-auth {
+			padding-top: $header-height-noauth;
+		}
+		&.home-page.no-auth {
+			padding-top: 0;
+		}
+	}
+	main {
+		margin: 0 auto;
+		max-width: $max;
+		padding: 20px;
+		.home-page.no-auth & {
+			max-width: none;
+			padding: 0;
+		}
+	}
+</style>

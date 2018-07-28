@@ -1,0 +1,18 @@
+<svelte:head>
+	<title>Floogar - Home</title>
+</svelte:head>
+
+{#if $user}
+	<Private/>
+{:else}
+	<Public/>
+{/if}
+
+<script>
+	export default {
+		components: {
+			Private: './_home-private.html',
+			Public: './_home-public.html',
+		},
+	}
+</script>
