@@ -31,6 +31,7 @@
     "start": "node build",
     "cy:run": "cypress run",
     "cy:open": "cypress open",
+    "db:init": "node -r esm server/db/arangodb-init",
     "m:up": "node -r esm server/utils/migration-shell",
     "m:up:all": "node -r esm server/utils/migration-shell",
     "m:down": "node -r esm server/utils/migration-shell",
@@ -96,6 +97,7 @@
     "svelte": "2.9.7",
     "svelte-loader": "2.10.0",
     "svgo": "1.0.5",
-    "webpack": "4.14.0"
+    "webpack": "4.14.0",
+    "yesno": "0.0.1"
   }
 }
