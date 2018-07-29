@@ -1,4 +1,4 @@
-module.exports.users = [{
+export const users = [{
 	_id: 'users/robert',
 	_key: 'robert',
 	created: Date.now(),
@@ -32,3 +32,25 @@ module.exports.users = [{
 	first: 'Dragon',
 	last: 'Trainer',
 }]
+
+export const stories = [{
+	_id: 'stories/the-first-floogar-adventure',
+	_key: 'the-first-floogar-adventure',
+	created: Date.now(),
+	modified: Date.now(),
+	title: 'The First Floogar Adventure',
+	intro: 'It was a benighted day for the malady clan, roaming through their ignoble rotted hue, a bloggospere of webbers, ducking through mindless unsocial conversations, blighted by the wasted corpses of confused information. The great "they" sought relief, and found it in the advent of a new Floogar. Twas its bliss that led to the entrance, which suddenly materialized before them.',
+	media: '/img/adventure.jpg',
+	mediaType: 'img',
+}]
+
+// export const clips = [{
+// 	created: Date.now(),
+// 	modified: Date.now(),
+// }]
+
+// Begin the adventure.
+// Look at the other side of the sign.
+// Consider a different Advent.
+// Is there any adventure involving a giant tomato?
+// I don't like adventures.

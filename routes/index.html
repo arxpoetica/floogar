@@ -7,11 +7,23 @@
 <!-- <p>{JSON.stringify($user)}</p> -->
 <h1>Tell a story.</h1>
 
+<p>{console.log(stories)}</p>
+
 <!-- {#if $user} -->
 <!-- {:else} -->
 <!-- {/if} -->
 
 <script>
 	export default {
+		async preload(/* { params, query } */) {
+			const res = await this.fetch('stories.json')
+			const stories = await res.json()
+
+			if (res.status === 200) {
+				return { stories }
+			} else {
+				this.error(res.status, stories.message)
+			}
+		}
 	}
 </script>

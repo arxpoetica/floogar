@@ -5,6 +5,11 @@ import config from '../../build/config'
 import { log, papaParseAsync } from '../../utils/migration-tools'
 import _ from 'lodash'
 import { driver } from '../../db/arangodb-driver'
+import {
+	users as usersData,
+	stories as storiesData,
+	clips as clipsData,
+} from '../migrations-data/1532748376068-setup'
 const db = driver.connect()
 
 db.useDatabase(config.ARANGODB_DB)
@@ -46,13 +51,18 @@ export const up = async function() {
 		log(storyGraphinfo, 'StoriesGraph.create info')
 
 		// ------------------------------ >>>
-		// users and users follows
+		// first story data
 		// ------------------------------ >>>
 
-		const migrationData = require('../migrations-data/1532748376068-setup')
+		const Stories = StoriesGraph.vertexCollection('stories')
+		log(await Stories.import(storiesData), 'first story imported')
+
+		// ------------------------------ >>>
+		// users, users follows, user has stories
+		// ------------------------------ >>>
 
 		const Users = ProfilesGraph.vertexCollection('users')
-		log(await Users.import(migrationData.users), 'first users imported')
+		log(await Users.import(usersData), 'first users imported')
 		const userNodes = await (await Users.all()).all()
 		log(userNodes, 'actual nodes fetched')
 
@@ -88,6 +98,14 @@ export const up = async function() {
 		}]),
 		'follow edges imported')
 
+		const UserStoryEdges = ProfilesGraph.edgeCollection('user-has-story')
+		log(await UserStoryEdges.import([{
+			_from: Robert._id,
+			_to: 'stories/the-first-floogar-adventure',
+			vertex: Robert._key,
+		}]),
+		'user has story edges imported')
+
 		// ------------------------------ >>>
 		// set passwords
 		// ------------------------------ >>>
@@ -118,14 +136,6 @@ export const up = async function() {
 }
 
 export const down = async function() {
-	log(await ProfilesGraph.vertexCollection('users').drop(), '`users` vertex collection dropped')
-	log(await ProfilesGraph.edgeCollection('user-follows-user').drop(), '`user-follows-user` edge collection dropped')
-	log(await ProfilesGraph.vertexCollection('stories').drop(), '`stories` vertex collection dropped')
-	log(await ProfilesGraph.edgeCollection('user-has-story').drop(), '`user-has-story` edge collection dropped')
-	log(await ProfilesGraph.drop(), '`profiles-graph` dropped')
-
-	log(await StoriesGraph.edgeCollection('story-has-clip').drop(), '`story-has-clip` edge collection dropped')
-	log(await StoriesGraph.vertexCollection('clips').drop(), '`clips` vertex collection dropped')
-	log(await StoriesGraph.edgeCollection('clip-has-clip').drop(), '`clip-has-clip` edge collection dropped')
-	log(await StoriesGraph.drop(), '`stories-graph` dropped')
+	log(await ProfilesGraph.drop(true), '`profiles-graph` dropped')
+	log(await StoriesGraph.drop(true), '`stories-graph` dropped')
 }
