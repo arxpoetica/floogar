@@ -5,9 +5,21 @@
 <!-- https://web.archive.org/web/20080919091446/http://www.rhapsidiom.com:80/advent/index.cfm -->
 
 <!-- <p>{JSON.stringify($user)}</p> -->
-<h1>Tell a story.</h1>
 
 <p>{console.log(stories)}</p>
+{#if stories && stories.length}
+	<h1>Stories:</h1>
+	<ul>
+		{#each stories as story}
+			<li>
+				<a href="...">{story.title}</a> - 
+				<a href="profiles/{story.user._key}"><em>{story.user.displayName}</em></a>
+			</li>
+		{/each}
+	</ul>
+{:else}
+	<h1><a href="new-story">Create a story.</a></h1>
+{/if}
 
 <!-- {#if $user} -->
 <!-- {:else} -->

@@ -13,8 +13,8 @@ import {
 const db = driver.connect()
 
 db.useDatabase(config.ARANGODB_DB)
-const ProfilesGraph = db.graph('profiles-graph')
-const StoriesGraph = db.graph('stories-graph')
+const ProfilesGraph = db.graph('profilesGraph')
+const StoriesGraph = db.graph('storiesGraph')
 
 export const up = async function() {
 
@@ -26,11 +26,11 @@ export const up = async function() {
 
 		const profileGraphinfo = await ProfilesGraph.create({
 			edgeDefinitions: [{
-				collection: 'user-follows-user',
+				collection: 'userFollowsUser',
 				from: ['users'],
 				to: ['users'],
 			}, {
-				collection: 'user-has-story',
+				collection: 'userHasStory',
 				from: ['users'],
 				to: ['stories'],
 			}],
@@ -39,11 +39,11 @@ export const up = async function() {
 
 		const storyGraphinfo = await StoriesGraph.create({
 			edgeDefinitions: [{
-				collection: 'story-has-clip',
+				collection: 'storyHasClip',
 				from: ['stories'],
 				to: ['clips'],
 			}, {
-				collection: 'clip-has-clip',
+				collection: 'clipHasClip',
 				from: ['clips'],
 				to: ['clips'],
 			}],
@@ -58,7 +58,7 @@ export const up = async function() {
 		log(await Stories.import(storiesData), 'first story imported')
 
 		// ------------------------------ >>>
-		// users, users follows, user has stories
+		// users, users follows
 		// ------------------------------ >>>
 
 		const Users = ProfilesGraph.vertexCollection('users')
@@ -70,7 +70,7 @@ export const up = async function() {
 		const Doug = _.find(userNodes, { _key: 'doug' })
 		const David = _.find(userNodes, { _key: 'david' })
 
-		const FollowsEdges = ProfilesGraph.edgeCollection('user-follows-user')
+		const FollowsEdges = ProfilesGraph.edgeCollection('userFollowsUser')
 		log(await FollowsEdges.import([{
 			_from: Robert._id,
 			_to: Doug._id,
@@ -98,10 +98,22 @@ export const up = async function() {
 		}]),
 		'follow edges imported')
 
-		const UserStoryEdges = ProfilesGraph.edgeCollection('user-has-story')
+		// ------------------------------ >>>
+		// user has stories
+		// ------------------------------ >>>
+
+		const UserStoryEdges = ProfilesGraph.edgeCollection('userHasStory')
 		log(await UserStoryEdges.import([{
 			_from: Robert._id,
 			_to: 'stories/the-first-floogar-adventure',
+			vertex: Robert._key,
+		}, {
+			_from: David._id,
+			_to: 'stories/raiders-of-the-lost-ark',
+			vertex: David._key,
+		}, {
+			_from: Robert._id,
+			_to: 'stories/the-empire-strikes-back',
 			vertex: Robert._key,
 		}]),
 		'user has story edges imported')
@@ -136,6 +148,6 @@ export const up = async function() {
 }
 
 export const down = async function() {
-	log(await ProfilesGraph.drop(true), '`profiles-graph` dropped')
-	log(await StoriesGraph.drop(true), '`stories-graph` dropped')
+	log(await ProfilesGraph.drop(true), '`profilesGraph` dropped')
+	log(await StoriesGraph.drop(true), '`storiesGraph` dropped')
 }

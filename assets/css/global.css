@@ -60,10 +60,6 @@ a:active,
 		text-decoration: underline;
 	}
 
-a * {
-		color: #222;
-	}
-
 b,
 strong {
 	font-weight: 600;

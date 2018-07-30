@@ -42,6 +42,24 @@ export const stories = [{
 	intro: 'It was a benighted day for the malady clan, roaming through their ignoble rotted hue, a bloggospere of webbers, ducking through mindless unsocial conversations, blighted by the wasted corpses of confused information. The great "they" sought relief, and found it in the advent of a new Floogar. Twas its bliss that led to the entrance, which suddenly materialized before them.',
 	media: '/img/adventure.jpg',
 	mediaType: 'img',
+}, {
+	_id: 'stories/raiders-of-the-lost-ark',
+	_key: 'raiders-of-the-lost-ark',
+	created: Date.now(),
+	modified: Date.now(),
+	title: 'Raiders of the Lost Ark',
+	intro: 'The dense, lush rain forests of the eastern slopes of the Andes, the place known as "The Eyebrow of the Jungle". Ragged, jutting canyon walls are half-hidden by the thick mists.\n\nPERU 1936\n\nA narrow trail across the green face of the canyon. A group of men make their way along it. At the head of the party is an American, INDIANA JONES.',
+	media: '/img/adventure.jpg',
+	mediaType: 'img',
+}, {
+	_id: 'stories/the-empire-strikes-back',
+	_key: 'the-empire-strikes-back',
+	created: Date.now(),
+	modified: Date.now(),
+	title: 'The Empire Strikes Back',
+	intro: 'A Star Destroyer moves through space, releasing Imperial probe robots from its underside. One of these probes zooms toward the planet Hoth and lands on its ice-covered surface. An explosion marks the point of impact. A weird mechanical sound rises above the whining of the wind. A strange probe robot, with several extended sensors, emerges from the smoke-shrouded crater. The ominous mechanical probe floats across the snow plain and disappears into the distance.',
+	media: '/img/adventure.jpg',
+	mediaType: 'img',
 }]
 
 // export const clips = [{
